@@ -1,25 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Liste des Articles</h1>
-
-    <a href="{% url 'article_create' %}" class="btn btn-primary">Créer un nouvel article</a>
-
-    {% for article in articles %}
-        <div class="article-card">
-            <h2>
-                <a href="{% url 'article_detail' article.pk %}">{{ article.titre }}</a>
-            </h2>
-            <p>Publié le {{ article.date_publication|date:"d M Y" }} - par {{ article.auteur }}</p>
-
-            {% if article.image %}
-                <img src="{{ article.image.url }}" alt="Image de l'article" class="article-image">
-            {% endif %}
-
-            <p>{{ article.contenu|truncatewords:30 }}</p>
-            <a href="{% url 'article_detail' article.pk %}" class="btn btn-secondary">Lire la suite</a>
-        </div>
-    {% empty %}
-        <p>Aucun article disponible.</p>
-    {% endfor %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Liste des Articles</h1>
+    <div class="text-end mb-3">
+        <a href="{% url 'article_create' %}" class="btn btn-primary">Créer un nouvel article</a>
+    </div>
+    <div class="row">
+        {% for article in articles %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    {% if article.image %}
+                        <img src="{{ article.image.url }}" class="card-img-top img-fluid" alt="{{ article.titre }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'article_detail' article.pk %}" class="text-decoration-none">{{ article.titre }}</a>
+                        </h5>
+                        <p class="card-text text-muted">{{ article.date_publication }} - {{ article.auteur }}</p>
+                        <a href="{% url 'article_detail' article.pk %}" class="btn btn-outline-primary">Lire plus</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">Aucun article disponible.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

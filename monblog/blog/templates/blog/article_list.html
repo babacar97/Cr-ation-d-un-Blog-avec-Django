@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Liste des Articles</h1>
+
+    <a href="{% url 'article_create' %}" class="btn btn-primary">Créer un nouvel article</a>
+
+    {% for article in articles %}
+        <div class="article-card">
+            <h2>
+                <a href="{% url 'article_detail' article.pk %}">{{ article.titre }}</a>
+            </h2>
+            <p>Publié le {{ article.date_publication|date:"d M Y" }} - par {{ article.auteur }}</p>
+
+            {% if article.image %}
+                <img src="{{ article.image.url }}" alt="Image de l'article" class="article-image">
+            {% endif %}
+
+            <p>{{ article.contenu|truncatewords:30 }}</p>
+            <a href="{% url 'article_detail' article.pk %}" class="btn btn-secondary">Lire la suite</a>
+        </div>
+    {% empty %}
+        <p>Aucun article disponible.</p>
+    {% endfor %}
+{% endblock %}

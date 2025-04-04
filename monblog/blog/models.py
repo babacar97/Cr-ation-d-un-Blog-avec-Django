@@ -9,3 +9,5 @@ class Article(models.Model):
 
     def __str__(self):
         return self.titre  # Affiche le titre dans l'admin Django
+
+
